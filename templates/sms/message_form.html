@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} Create or update message {% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated  and user.is_superuser == 1 %}
+      <br>
+      {% if not message.id %}
+        <h3>Create New message</h3>
+      {% else %}
+        <h3>Update {{message.title}} message</h3>
+      {% endif %}
+      <form class="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        {% if not message.id %}
+        <input class= "btn btn-lg btn-info btn-block" type="Submit" name="" value="Create">
+        <input type="hidden" name="created_by" value="{{user}}">
+        {% else %}
+        <input class= "btn btn-info" type="Submit" name="" value="Update">
+        <a class="btn btn-default" href="{% url 'sms:message_detail' pk=message.pk %}">Cancel</a>
+        <input type="hidden" name="created_by" value="{{message.created_by}}">
+        <input type="hidden" name="updated_by" value="{{user}}">
+        <br>
+        Create by: {{message.created_by}} At: {{message.created_at}}
+        {% if message.updated_by %}
+          <br>
+          Updated by: {{message.updated_by}} At: {{message.updated_at}}
+          <br>
+        {% endif %}
+        {% endif %}
+      </form>
+    {% else %}
+      <br>
+      <center><h1>Access Denied!</h1></center>
+      <br>
+    {% endif %}
+</div>
+<br>
+<br>
+<br>
+
+
+{% endblock %}

@@ -1,0 +1,33 @@
+    {% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Profile | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container"><br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <div class="col-md-6">{{ user_form.first_name|as_crispy_field  }}</div>
+                        <div class="col-md-6">{{ user_form.last_name|as_crispy_field  }}</div>
+                        <div class="col-md-12">{{ user_form.email|as_crispy_field  }}</div>
+                        <div class="col-md-12">{{ user_profile_form.image|as_crispy_field  }}</div>
+                        <div class="col-md-12">{{ user_profile_form.gender|as_crispy_field  }}</div>
+                        <div class="col-md-12">{{ user_profile_form.birth_date|as_crispy_field  }}</div>
+                        <div class="col-md-6">{{ user_profile_form.phone|as_crispy_field  }}</div>
+                        <div class="col-md-6">{{ user_profile_form.company|as_crispy_field  }}</div>
+                        <div class="col-md-12">{{ user_profile_form.address|as_crispy_field  }}</div>
+                        <div class="col-md-4">{{ user_profile_form.city|as_crispy_field  }}</div>
+                        <div class="col-md-4">{{ user_profile_form.state|as_crispy_field  }}</div>
+                        <div class="col-md-4">{{ user_profile_form.zip|as_crispy_field  }}</div>
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a href="{{ user.userprofile.get_absolute_url }}" class="btn btn-default">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><br>
+{% endblock %}

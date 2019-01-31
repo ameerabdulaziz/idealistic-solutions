@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}Login | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <br>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <form method="post">{% csrf_token %}
+                            {% bootstrap_form form_login %}
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form method="post">{% csrf_token %}
+                        <div class="col-md-6">{% bootstrap_field form_register.first_name %}</div>
+                        <div class="col-md-6">{% bootstrap_field form_register.last_name %}</div>
+                        <div class="col-md-12">{% bootstrap_field form_register.username %}</div>
+                        <div class="col-md-12">{% bootstrap_field form_register.email %}</div>
+                        <div class="col-md-6">{% bootstrap_field form_register.password1 %}</div>
+                        <div class="col-md-6">{% bootstrap_field form_register.password2 %}</div>
+                        <div class="col-md-12"><button type="submit" class="btn btn-primary">Register</button></div>
+                    </form>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

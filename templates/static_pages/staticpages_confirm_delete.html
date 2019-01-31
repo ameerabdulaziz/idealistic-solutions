@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block metadescription %} {{static_pages.meta_description|add:"160" }}  {% endblock %}
+{% block metakeywords %} {{static_pages.meta_keywords}} {% endblock %}
+{% block metaauthor %} {{static_pages.meta_author}} {% endblock %}
+{% block title %} {{static_pages.page_title}} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <br><br>
+    <center>
+      {% if user.is_authenticated  and user.is_superuser == 1 %}
+      <form class="" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete {{staticpages.page_title}}?</p>
+        <input class="btn btn-danger" type="submit" name="" value="Yes">
+        <a class="btn btn-success " href="{% url 'static_pages:static_pages_detail' slug=staticpages.slug %}"> Cancel</a>
+      </form>
+
+
+      {% else %}
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+      {% endif %}
+      <br><br>
+    </center>
+
+</div>
+
+{% endblock %}

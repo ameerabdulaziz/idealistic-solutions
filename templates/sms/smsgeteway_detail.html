@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} {{smsgeteway.name}}{{ block.super }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+      {% if smsgeteway and  user.is_authenticated  and user.is_superuser == 1 %}
+        {{smsgeteway.name}}
+        <br>
+        <center>
+          <a class='btn btn-default' href="{% url  'sms:smsgeteway_update' pk=smsgeteway.pk %}">Update smsgeteway</a>
+          <a class='btn btn-danger' href="{% url  'sms:smsgeteway_delete' pk=smsgeteway.pk %}">Delete smsgeteway</a>
+          <br>
+          Create by: {{smsgeteway.created_by|title}} At: {{smsgeteway.created_at}}
+          {% if smsgeteway.updated_by %}
+            <br>
+            Updated by: {{smsgeteway.updated_by|title}} At: {{smsgeteway.updated_at}}
+          {% endif %}
+          <br>
+        </center>
+      {% else %}
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+      {% endif %}
+
+  </div>
+
+<br>
+<br>
+{% endblock %}

@@ -1,0 +1,100 @@
+<nav class="navbar navbar-default fhmm" role="navigation">
+
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle">
+            <i class="fa fa-bars"></i>
+        </button>
+        <!-- Logo -->
+        <div class="logo scroll-local">
+
+            <a href="{% url 'home' %}">Idealistic Solutions</a>
+            <!-- <h1><a href="index.html">Rocket</a></h1> -->
+        </div>
+        <!-- Logo / End -->
+    </div><!-- end navbar-header -->
+
+    <div id="main-nav" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav scroll-local">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="{% url 'shop:product-list' %}">Service</a></li>
+            <li><a href="{% url 'tickets:list' %}">Support</a></li>
+            <li><a href="{% url 'contacts' %}">Contacts</a></li>
+            {% if user.is_authenticated  and user.is_superuser == 1 %}
+                <li><a href="{% url 'static_pages:static_pages_list' %}">SPL</a></li>
+                <!-- SMS Menue -->
+                <li class="dropdown">
+                	<a href="#" data-toggle="dropdown" class="dropdown-toggle dropdown-toggle__caret-holder">SMS</a>
+                	<a class="dropdown-toggle dropdown-toggle__caret"><b class="caret"></b></a>
+                	<ul class="dropdown-menu" role="menu">
+                		<li><a href="{% url 'sms:phonebook_list' %}">PhoneBook</a></li>
+                		<li><a href="{% url 'sms:contact_list' %}">Contact</a></li>
+                    <li><a href="{% url 'sms:template_list' %}">Template</a></li>
+                    <li><a href="{% url 'sms:message_list' %}">Message</a></li>
+                    <li><a href="{% url 'sms:smsgeteway_list' %}">SmsGeteway</a></li>
+                	</ul><!-- end drop down menu -->
+                </li>
+
+            {% endif %}
+
+            <!-- <li class="item-has-search">
+                <form class="form-inline form-search__nav" action="{% url 'search:result' %}">
+                    <input type="text" class="nav-search-txt" aria-label="Search" name="q" value="{{ query }}">
+                    <i class="fa fa-search"></i>
+                </form>
+            </li> -->
+            <li class="item-has-cart dropdown dropdown-right fhmm-fw">
+                <div class="shopping-cart">
+
+                    <span class="price-total">${{ total }}</span>
+                    <a href="{% url 'cart:cart-detail' %}" data-toggle="dropdown" class="cart-icon dropdown-toggle dropdown-toggle__caret-holder"><i class="fa fa-shopping-cart"></i></a>
+                    <span class="cart-number">{{ item_count }}</span>
+
+                    <ul class="dropdown-menu half half-right">
+                        <li class="fhmm-content withoutdesc">
+                            <!-- Shopping Cart -->
+                            <table class="table">
+                                <tbody>
+                                    {% if cart_items %}
+                                        {% for cart_item in cart_items %}
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="product-thumb-holder">
+                                                        <img src="{{ cart_item.product.image.url }}" alt="" class="product-thumb" width="30">
+                                                    </a>
+                                                    <h4 class="product-name"><span class="product-count">{{ cart_item.quantity }}x</span> - {{ cart_item.product.name }}</h4>
+                                                    <span class="product-desc-alt">{{ cart_item.product.category }}</span>
+                                                </td>
+                                                <td class="product-price">${{ cart_item.product.price }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <td class="product-subtotal-txt">Subtotal</td>
+                                            <td class="product-subtotal">${{ total }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-checkout">
+                                                <a href="{% url 'cart:cart-detail' %}" class="btn btn-primary btn-has-icon btn-confirm"><i class="fa fa-shopping-cart"></i> Cart</a>
+                                            </td>
+                                            <td class="product-close">
+                                                <a href="#" class="btn btn-default btn-single-icon btn-cancel"><i class="fa fa-times"></i></a>
+                                            </td>
+                                        </tr>
+
+                                    {% else %}
+                                        <tr>
+                                            <td class="text-center">You cart is empty!</td>
+                                        </tr>
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                            <!-- Shopping Cart / End -->
+                        </li><!-- end grid demo -->
+                    </ul><!-- end drop down menu -->
+                </div>
+            </li>
+        </ul><!-- end nav navbar-nav -->
+    </div><!-- end #main-nav -->
+
+</nav><!-- end navbar navbar-default fhmm -->

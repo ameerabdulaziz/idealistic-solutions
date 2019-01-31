@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+
+{% block title %} {{phonebook.name}} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <br><br>
+    <center>
+      {% if user.is_authenticated  and user.is_superuser == 1 %}
+      <form class="" method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete {{phonebook.name}}?</p>
+        <input class="btn btn-danger" type="submit" name="" value="Yes">
+        <a class="btn btn-success " href="{% url 'sms:phonebook_detail' pk=phonebook.pk %}"> Cancel</a>
+      </form>
+
+
+      {% else %}
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+      {% endif %}
+      <br><br>
+    </center>
+
+</div>
+
+{% endblock %}

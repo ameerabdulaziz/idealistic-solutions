@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Create Ticket | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+      {% if user.is_authenticated and not ticket.id %}
+        <br>
+        <div class="row">
+            <div class="col-md-8">
+                <form method="post">{% csrf_token %}
+                    {{ form.media }}
+                    {{ form|crispy }}
+                    {%  if ticket.id %}
+                      <button type="submit" class="btn btn-info">Update Ticket</button>
+                    {%  else %}
+                      <button type="submit" class="btn btn-success">Create Ticket</button>
+                    {%  endif %}
+                </form>
+            </div>
+        </div>
+        <br>
+      {% elif user.is_authenticated and ticket.id and user.is_superuser == 1 %}
+        <br>
+        <div class="row">
+            <div class="col-md-8">
+                <form method="post">{% csrf_token %}
+                    {{ form.media }}
+                    {{ form|crispy }}
+                    {%  if ticket.id %}
+                      <button type="submit" class="btn btn-info">Update Ticket</button>
+                    {%  else %}
+                      <button type="submit" class="btn btn-success">Create Ticket</button>
+                    {%  endif %}
+                </form>
+            </div>
+        </div>
+        <br>
+      {% else %}
+        <center class="section-title alert alert-warning alert-dismissible fade in text-uppercase">
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+
+      {% endif %}
+    </div>
+    <br><br><br>
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} Create or update phonebook {% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated  and user.is_superuser == 1 %}
+      <br>
+      {% if not phonebook.id %}
+        <h3>Create New Phonebook</h3>
+      {% else %}
+        <h3>Update {{phonebook.title}} phonebook</h3>
+      {% endif %}
+      <form class="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        {% if not phonebook.id %}
+        <input class= "btn btn-lg btn-info btn-block" type="Submit" name="" value="Create">
+        <input type="hidden" name="created_by" value="{{user}}">
+        {% else %}
+        <input class= "btn btn-info" type="Submit" name="" value="Update">
+        <a class="btn btn-default" href="{% url 'sms:phonebook_detail' pk=phonebook.pk %}">Cancel</a>
+        <input type="hidden" name="created_by" value="{{phonebook.created_by}}">
+        <input type="hidden" name="updated_by" value="{{user}}">
+        <br>
+        Create by: {{phonebook.created_by}} At: {{phonebook.created_at}}
+        {% if phonebook.updated_by %}
+          <br>
+          Updated by: {{phonebook.updated_by}} At: {{phonebook.updated_at}}
+          <br>
+        {% endif %}
+        {% endif %}
+      </form>
+    {% else %}
+      <br>
+      <center><h1>Access Denied!</h1></center>
+      <br>
+    {% endif %}
+</div>
+<br>
+<br>
+<br>
+
+
+{% endblock %}

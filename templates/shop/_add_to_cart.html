@@ -1,0 +1,6 @@
+<form action="{% url 'cart:cart-update' product.id %}" method="post" class="form-product-ajax">{% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-has-icon icon-right btn-shopping-cart">
+        <i class="fa fa-shopping-cart"></i>
+        <span>Add to Cart</span>
+    </button>
+</form>

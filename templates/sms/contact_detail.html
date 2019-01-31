@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} {{contact.name}}{{ block.super }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+      {% if contact and  user.is_authenticated  and user.is_superuser == 1 %}
+        {{contact.name}}
+        <br>
+        <center>
+          <a class='btn btn-default' href="{% url  'sms:contact_update' pk=contact.pk %}">Update contact</a>
+          <a class='btn btn-danger' href="{% url  'sms:contact_delete' pk=contact.pk %}">Delete contact</a>
+          <br>
+          Create by: {{contact.created_by|title}} At: {{contact.created_at}}
+          {% if contact.updated_by %}
+            <br>
+            Updated by: {{contact.updated_by|title}} At: {{contact.updated_at}}
+          {% endif %}
+          <br>
+        </center>
+      {% else %}
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+      {% endif %}
+
+  </div>
+
+<br>
+<br>
+{% endblock %}

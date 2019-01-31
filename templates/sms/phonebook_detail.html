@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} {{phonebook.name}}{{ block.super }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+      {% if phonebook and  user.is_authenticated  and user.is_superuser == 1 %}
+        {{phonebook.name}}
+        <br>
+        <center>
+          <a class='btn btn-default' href="{% url  'sms:phonebook_update' pk=phonebook.pk %}">Update PhoneBook</a>
+          <a class='btn btn-danger' href="{% url  'sms:phonebook_delete' pk=phonebook.pk %}">Delete PhoneBook</a>
+          <br>
+          Create by: {{phonebook.created_by|title}} At: {{phonebook.created_at}}
+          {% if phonebook.updated_by %}
+            <br>
+            Updated by: {{phonebook.updated_by|title}} At: {{phonebook.updated_at}}
+          {% endif %}
+          <br>
+        </center>
+      {% else %}
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+      {% endif %}
+
+  </div>
+
+<br>
+<br>
+{% endblock %}

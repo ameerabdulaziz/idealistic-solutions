@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block metadescription %} List Of messages {% endblock %}
+{% block metakeywords %} <!-- Text Here --> {% endblock %}
+{% block metaauthor %} <!-- Text Here --> {% endblock %}
+
+{% block title %}List Of Messages{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    {% if user.is_authenticated  and user.is_superuser == 1 %}
+    <br>
+    <div class="section-title-wrapper section-title-wrapper__sm">
+      <center>
+        <h1 class="section-title">List Of All Messages</h1>
+        <br>
+      </center>
+  </div>
+
+  <div class="title-bordered border__dashed">
+    <a href="{% url 'sms:message_create' %}">
+      <span class="fa fa-pencil"> Create New message</span>
+    </a>
+  </div>
+
+    <ul>
+      {% for message in message_list %}
+
+          <li>
+
+            <a  href="{% url  'sms:message_update' pk=message.pk %}">
+              <span class='fa fa-edit'></span>
+            </a>
+              <a href="{% url 'sms:message_detail' pk=message.pk %}">{{message.name}}</a>
+              Status:{{message.active}}
+          </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <br>
+      <center><h1>Access Denied!</h1></center>
+      <br>
+    {% endif %}
+</div>
+
+
+<!-- pagination Start here -->
+<center>{% if is_paginated %}
+  <ul class="pagination list-unstyled list-inline">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled "><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active "><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled "><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}</center>
+<!-- pagination End here -->
+
+
+{% endblock %}

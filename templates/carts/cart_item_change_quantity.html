@@ -1,0 +1,59 @@
+<a href="" id="decrease-quantity-of-{{ product_id }}" class="btn btn-default btn-single-icon">
+    <i class="fa fa-minus"></i>
+</a>
+<input type="number" step="1" value="{{ cart_item.quantity }}" size="4" id="qty-{{ product_id }}" class="input-text qty text form-control">
+<a href="" id="increase-quantity-of-{{ product_id }}" class="btn btn-default btn-single-icon">
+    <i class="fa fa-plus"></i>
+</a>
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#decrease-quantity-of-{{ product_id }}').on('click', function(e) {
+                e.preventDefault();
+                let product_id = {{ product_id }};
+                $.ajax({
+                    type:'POST',
+                    url: "{% url 'cart:decrease-quantity-cart-item' %}",
+                    data: {
+                        csrfmiddlewaretoken :$('input[name=csrfmiddlewaretoken]').val(),
+                        id: product_id
+                    },
+                    success:function(data) {
+                        let item_count = {{ item_count }} - 1;
+                        $('#sub-total-{{ product_id }}').html(data.sub_total);
+                        $('#qty-{{ product_id }}').val(data.quantity);
+                        $('.price-total').html('$' + data.total);
+                        $('.cart-number').html(item_count);
+                    }, error:function(error) {
+                        console.log("Error");
+                        console.log(error)
+                    }
+                });
+            });
+            $('#increase-quantity-of-{{ product_id }}').on('click', function(e) {
+                e.preventDefault();
+                let product_id = {{ product_id }};
+                $.ajax({
+                    type:'POST',
+                    url: "{% url 'cart:increase-quantity-cart-item' %}",
+                    data: {
+                        csrfmiddlewaretoken :$('input[name=csrfmiddlewaretoken]').val(),
+                        id: product_id
+                    },
+                    success:function(data) {
+                        let item_count = {{ item_count }} + 1;
+                        $('#sub-total-{{ product_id }}').html(data.sub_total);
+                        $('#qty-{{ product_id }}').val(data.quantity);
+                        $('.price-total').html('$' + data.total);
+                        $('.cart-number').html(item_count);
+                    }, error:function(error) {
+                        console.log("Error");
+                        console.log(error)
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

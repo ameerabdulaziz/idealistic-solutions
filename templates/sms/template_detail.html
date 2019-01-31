@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} {{template.name}}{{ block.super }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+      {% if template and  user.is_authenticated  and user.is_superuser == 1 %}
+        {{template.name}}
+        <br>
+        <center>
+          <a class='btn btn-default' href="{% url  'sms:template_update' pk=template.pk %}">Update template</a>
+          <a class='btn btn-danger' href="{% url  'sms:template_delete' pk=template.pk %}">Delete template</a>
+          <br>
+          Create by: {{template.created_by|title}} At: {{template.created_at}}
+          {% if template.updated_by %}
+            <br>
+            Updated by: {{template.updated_by|title}} At: {{template.updated_at}}
+          {% endif %}
+          <br>
+        </center>
+      {% else %}
+        <br>
+        <center><h1>Access Denied!</h1></center>
+        <br>
+      {% endif %}
+
+  </div>
+
+<br>
+<br>
+{% endblock %}

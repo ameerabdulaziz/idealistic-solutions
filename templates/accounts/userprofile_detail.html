@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ user.get_full_name }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container"><br>
+        <div class="row">
+            <div class="col-md-5 col-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Profile</div>
+                    <div class="panel-body">
+                        {% if userprofile.image %}
+                            <img src="{{ userprofile.image.url }}" alt="{{ user }}" width="200px">
+                        {% else %}
+                            <img src="{% static 'img/user-image-placeholder.jpg' %}" alt="{{ user }}">
+                        {% endif %}
+                        <h5 class="card-title">{{ userprofile.user.get_full_name }}</h5>
+                        <p><i class="fa fa-envelope"></i> <a href="mailto:ameer@idealisticsolutions.com">{{ userprofile.user.email }}</a></p>
+                        {% if userprofile.phone %}<p><i class="fa fa-phone-square"></i>{{ userprofile.phone }}</p>{% endif %}
+                        {% if userprofile.company %}<p>{{ userprofile.company }}</p>{% endif %}
+                        {% if userprofile.address %}<p>{{ userprofile.address }}</p>{% endif %}
+                        <a href="{% url 'accounts:update' userprofile.slug %}" class="btn btn-primary">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="text-center">
+                    <br>
+                    <h1 class="text-center my_title">Order History</h1>
+                    <br>
+                    {% if order_list %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Order Date</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in order_list %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.created_at|date:"d M Y" }}</td>
+                                    <td>{{ order.total }}</td>
+                                    <td><i class="fa fa-check"></i>&nbsp;Complete</td>
+                                    <td><a href="{% url 'orders:order_detail' order.id %}">View order</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>You have not placed any orders yet.<br><br><a href="{% url 'shop:product-list' %}" class="btn btn-secondary">Continue shopping</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

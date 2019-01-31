@@ -1,0 +1,400 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ product.name }} | {{ block.super }}{% endblock %}
+
+{% block description %}<meta name="description" content="{{ product.description|slice:'120' }}">{% endblock %}
+
+{% block content %}
+
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+        </div>
+    </div>
+    <!-- End Page Loader -->
+
+    <div class="page-wrapper">
+
+        <div class="content-wrapper">
+
+            <!-- Page Section -->
+            <section class="page-section page-section__no-bottom-padding">
+                <div class="container">
+
+                    <div class="section-title-wrapper">
+                        <div class="section-title-inner">
+                            <h1 class="section-title section-title__lg">{{ product.name }}</h1>
+                            <ol class="breadcrumb">
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'shop:product-list' %}">Service</a></li>
+                                <li class="active">{{ product.name }}</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Product -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Single Product Gallery -->
+                            <div id="product-gallery" class="royalSlider rsUni product-gallery">
+                                <a class="rsImg" href="{{ product.image.url }}" data-rsw=auto data-rsh="544">{{product.name}} <img src="{{ product.image.url }}" height="104" width="auto alt="" class="rsTmb thumbnail"></a>
+                                <!-- <a class="rsImg" data-rsbigimg="images/samples/product-single2.jpg" href="{{ product.image.url }}" data-rsw="424" data-rsh="544">Vincent van Gogh - Still Life: Vase with Twelve Sunflowers <img src="{{ product.image.url }}" height="104" width="104" alt="" class="rsTmb thumbnail"></a> -->
+                                <!-- <a class="rsImg" data-rsbigimg="images/samples/product-single1.jpg" href="{{ product.image.url }}" data-rsw="424" data-rsh="544">Vincent van Gogh - Still Life: Vase with Twelve Sunflowers <img src="{{ product.image.url }}" height="104" width="104" alt="" class="rsTmb thumbnail"></a> -->
+                            </div>
+                            <!-- Single Product Gallery / End -->
+                        </div>
+                        <div class="col-md-6">
+                            <header class="product-heading">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h2 class="product-title">{{ product.name }}</h2>
+                                        <span class="product-company"><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></span>
+                                    </div>
+                                    <!-- <div class="col-md-4">
+                                        <div class="review_num">
+                                            <div class="star-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                            </div>
+                                            <span class="review_number">3</span> Customer Reviews
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </header>
+                            <div class="product-info">
+                                <div class="product-price clearfix">
+
+                                    <div class="price">
+                                        <ins><span class="amount">${{ product.price }}</span></ins>
+                                        {% if product.price_before_discount and product.price_before_discount > product.price %}
+                                          <del><span class="amount">${{ product.price_before_discount }}</span></del>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="currency">
+                                        <select class="form-control selectpicker" id="filter-currency" data-style="btn-default">
+                                            <option value="dollsars">$ - USD</option>
+                                            <!-- <option value="pounds">£ - GBP</option> -->
+                                            <!-- <option value="euro">€ - EURO</option> -->
+                                        </select>
+                                    </div>
+                                    <form action="{% url 'cart:cart-update' product.id %}" method="post">{% csrf_token %}
+                                        <div class="quantity">
+                                            <a href="" id="decrease-quantity" class="btn btn-default btn-single-icon"><i class="fa fa-minus"></i></a>
+                                            <input type="number" step="1" value="1" size="4" name="quantity" class="input-text qty text form-control">
+                                            <a href="" id="increase-quantity" class="btn btn-default btn-single-icon"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block btn-has-icon icon-right">
+                                            <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                    </form>
+                                </div>
+
+                                <div class="product-social clearfix">
+                                    <span class="product-social-label">Share on :</span>
+                                    <a href="#" class="btn btn-primary btn-single-icon"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" class="btn btn-primary btn-single-icon"><i class="fa fa-vk"></i></a>
+                                    <a href="#" class="btn btn-primary btn-single-icon"><i class="fa fa-pinterest"></i></a>
+                                    <a href="#" class="btn btn-primary btn-single-icon"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" class="btn btn-primary btn-single-icon"><i class="fa fa-google-plus"></i></a>
+                                </div>
+
+                            </div>
+                            <div class="product-desc">
+                                {% if product.short_description %}
+                                  <p>  {{product.short_description}} </p>
+                                {% endif %}
+
+                            </div>
+                            <footer class="product-footer">
+                            </footer>
+                        </div>
+                    </div>
+                    <!-- Product / End -->
+
+                    <!-- <div class="gap-80"></div> -->
+
+                    <!-- Product Meta -->
+                    <div role="tabpanel" class="mb-30">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-pills" role="tablist">
+                            <li class="active"><a href="#tab-description" aria-controls="tab-description" role="tab" data-toggle="tab">Description</a></li>
+                            <li ><a href="#tab-reviews" aria-controls="tab-reviews" role="tab" data-toggle="tab">Item Reviews</a></li>
+                            <!-- <li><a href="#tab-delivery" aria-controls="tab-delivery" role="tab" data-toggle="tab">Delivery</a></li> -->
+                            <!-- <li><a href="#tab-policy" aria-controls="tab-policy" role="tab" data-toggle="tab">Return Policy</a></li> -->
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <!-- Tab Description -->
+                            <div role="tabpanel" class="tab-pane fade in active" id="tab-description">
+                                <div class="title-bordered border__solid">
+                                    <h4>Service Description</h4>
+                                </div>
+                                {{product.description}}
+
+                            </div>
+                            <!-- Tab Description / End -->
+
+                            <!-- Tab Reviews -->
+                            <div role="tabpanel" class="tab-pane fade" id="tab-reviews">
+                                <div class="title-bordered border__solid">
+                                    <h4>Customer Reviews</h4>
+                                </div>
+
+                                <!-- Reviews List -->
+                                <!-- <ol class="commentlist reviewlist">
+                                    <li class="comment">
+                                        <div class="comment-wrapper">
+                                            <img src="images/samples/avatar1.png" alt="" class="avatar">
+                                            <div class="comment-body">
+                                                <div class="comment-meta">
+                                                    <h5 class="comment-author">Paullo Avendor</h5>
+                                                    <div class="comment-date"><i class="fa fa-clock-o"></i> August 01, 2014</div>
+                                                    <div class="comment-reply">
+                                                        <div class="star-rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-half-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="comment-txt">
+                                                    Vivamus in erat ut urna cursus vestibulum. Fusce commodo aliquam arcu. Nam commodo suscipit quam. Quisque id odio. Praesent venenatis metus at tortor pulvinar varius.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="comment">
+                                        <div class="comment-wrapper">
+                                            <img src="images/samples/avatar2.png" alt="" class="avatar">
+                                            <div class="comment-body">
+                                                <div class="comment-meta">
+                                                    <h5 class="comment-author">Roosevelt Donavane</h5>
+                                                    <div class="comment-date"><i class="fa fa-clock-o"></i> August 01, 2014</div>
+                                                    <div class="comment-reply">
+                                                        <div class="star-rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-half-o"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="comment-txt">
+                                                    Vivamus in erat ut urna cursus vestibulum. Fusce commodo aliquam arcu. Nam commodo suscipit quam. Quisque id odio. Praesent venenatis metus at tortor pulvinar varius.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="comment">
+                                        <div class="comment-wrapper">
+                                            <img src="images/samples/avatar5.png" alt="" class="avatar">
+                                            <div class="comment-body">
+                                                <div class="comment-meta">
+                                                    <h5 class="comment-author">Kuashi Tavagara</h5>
+                                                    <div class="comment-date"><i class="fa fa-clock-o"></i> August 01, 2014</div>
+                                                    <div class="comment-reply">
+                                                        <div class="star-rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-half-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="comment-txt">
+                                                    Vivamus in erat ut urna cursus vestibulum. Fusce commodo aliquam arcu. Nam commodo suscipit quam. Quisque id odio. Praesent venenatis metus at tortor pulvinar varius.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol> -->
+                                <!-- Reviews List / End -->
+
+                                <!-- Comments Form -->
+                                <div class="legend">
+                                    Add a Review
+                                </div>
+                                <form action="#" method="POST" role="form" class="comments-form">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <!-- Field: Name -->
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                    <input type="text" class="form-control" placeholder="Your Name">
+                                                </div>
+                                            </div>
+                                            <!-- Field: Name / End -->
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!-- Field: Email -->
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                                                    <input type="email" class="form-control" placeholder="Email Address">
+                                                </div>
+                                            </div>
+                                            <!-- Field: Email / End -->
+                                        </div>
+                                        <div class="col-md-4">
+                                          <!-- Field: Rating -->
+                    											<div class="form-group">
+                    												<div class="form-control rating-control">
+                    													<span class="rating-label">Choose Your Rating</span>
+                    													<input type="number" data-max="5" data-min="1" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-clearable-icon="fa-trash-o"/>
+                    												</div>
+                    											</div>
+                    											<!-- Field: Rating / End -->
+                                        </div>
+                                    </div>
+                                    <!-- Textarea -->
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-pencil"></i></div>
+                                            <textarea name="textarea" id="textarea" cols="30" rows="7" class="form-control" placeholder="Your Review"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Textarea / End -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary btn-has-icon btn-block"><i class="fa fa-envelope"></i> Submit Review</button>
+                                        </div>
+                                        <div class="col-md-8">
+                                            All fields are required. Please enter your information in the right way, in the main text area specify as much as possible about your purchased item.
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- Comments Form / End -->
+
+                                <hr>
+
+                                <!-- Well -->
+                                <!-- <div class="well text-center">Thank you for watching, view our <a href="#">best products!</a></div> -->
+                                <!-- Well / End -->
+
+                            </div>
+                            <!-- Tab Reviews / End -->
+
+
+
+
+                        </div>
+                    </div>
+                    <!-- Product Meta / End -->
+
+
+
+                    <div class="hr-alt"></div>
+
+                </div>
+            </section>
+            <!-- Page Section / End -->
+
+            <!-- Page Section (Best Sellers) -->
+            <section class="page-section page-section__no-top-padding">
+                <div class="container">
+                    <div class="section-title-wrapper mb-60">
+                        <div class="section-title-inner">
+                            <h2 class="section-title">Best Sellers</h2>
+                            <span class="section-desc">TOp shop Services</span>
+                        </div>
+                    </div>
+
+                    <!-- Products List -->
+                    <div class="products-holder row">
+                        <!-- Product -->
+                        <!-- <div class="product-item col-md-4 col-lg-3">
+                            <figure class="product-thumbnail">
+                                <span class="onsale">Sale</span>
+                                <img src="images/samples/product-img1.jpg" alt="" class="thumbnail img-responsive">
+                                <span class="product-btn-group">
+									<a href="images/samples/gallery-l-img2.jpg" title="T-shirt with logo" class="btn btn-primary btn-single-icon product-popup magnific-popup-link"><i class="fa fa-plus"></i></a>
+									<a href="shop-product.html" class="btn btn-primary btn-single-icon product-link"><i class="fa fa-link"></i></a>
+								</span>
+                            </figure>
+                            <div class="product-info">
+                                <h3 class="product-name">T-shirt with logo</h3>
+                                <span class="product-brand">Company T-shirts</span>
+                                <a href="#" class="btn btn-primary btn-has-icon icon-right btn-shopping-cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Add to Cart</span>
+                                </a>
+                            </div>
+                            <footer class="product-footer">
+                                <div class="price">
+                                    <ins><span class="amount">£29.00</span></ins>
+                                    <del><span class="amount">£34.00</span></del>
+                                </div>
+                                <div class="star-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                            </footer>
+                        </div> -->
+                        <!-- Product / End -->
+
+                    </div>
+                    <!-- Products List / End -->
+
+                </div>
+            </section>
+            <!-- Page Section (Best Sellers) / End -->
+        </div>
+
+
+
+
+    </div>
+
+
+    <!-- Back to Top -->
+    <div id="back-top">
+        <div class="link-holder scroll-local">
+            <a href="#top" class="top-link"><i class="fa fa-chevron-up"></i></a>
+        </div>
+    </div>
+    <!-- Back to Top / End -->
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+
+        $('#increase-quantity').on('click', function (e) {
+            e.preventDefault();
+            $('.qty').val(function(i, old_val) {
+                //
+                {#if (parseInt(old_val) === {{ product.stock }}) {#}
+                   // return old_val;
+                ///}
+                //
+                return ++old_val;
+            });
+        });
+
+        $('#decrease-quantity').on('click', function (e) {
+            e.preventDefault();
+            $('.qty').val(function(i, old_val) {
+                if (parseInt(old_val) === 1) {
+                    return old_val;
+                }
+                return --old_val;
+            });
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<form action="" method="post">{% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-circle delete_cart_item"  id="{{ product_id }}">
+        <i class="fa fa-times"></i>
+    </button>
+</form>
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#{{ product_id }}').on('click', function(e) {
+                e.preventDefault();
+                let product_id = {{ product_id }};
+                $.ajax({
+                    type:'POST',
+                    url: "{% url 'cart:delete-cart-item' %}",
+                    data: {
+                        csrfmiddlewaretoken :$('input[name=csrfmiddlewaretoken]').val(),
+                        id: product_id
+                    },
+                    success:function(data){
+                        $('.cart-number').html(data.cart_items_count);
+                        $('#{{ product_id }}').closest('tr').remove();
+                        $('.price-total').html('$' + data.total);
+                    }, error:function(error){
+                        console.log("Error");
+                        console.log(error)
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

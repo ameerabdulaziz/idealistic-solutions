@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block metadescription %} {{staticpages.meta_description|slice:"160" }}  {% endblock %}
+{% block metakeywords %} {{staticpages.meta_keywords}} {% endblock %}
+{% block metaauthor %} {{staticpages.meta_author}} {% endblock %}
+{% block title %} {{staticpages.page_title}}{{ block.super }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+      {% if staticpages and staticpages.live %}
+        {{staticpages.content|safe}}
+      {% else %}
+        {% if user.is_authenticated  and user.is_superuser == 1 %}
+          <center class="section-title alert alert-warning alert-dismissible fade in text-uppercase">
+          <h1>This page is Draft!</h1></center>
+          {{staticpages.content|safe}}
+        {% else %}
+          <br>
+          <center><h1>Access Denied!</h1></center>
+          <br>
+        {% endif %}
+      {% endif %}
+
+  </div>
+
+<br>
+<br>
+
+{% if user.is_authenticated  and user.is_superuser == 1 %}
+<center>
+  <a class='btn btn-default' href="{% url  'static_pages:static_pages_update' slug=staticpages.slug %}">Update Page</a>
+  <a class='btn btn-danger' href="{% url  'static_pages:static_pages_delete' slug=staticpages.slug %}">Delete Page</a>
+  <br>
+  Create by: {{staticpages.created_by|title}} At: {{staticpages.created_at}}
+  {% if staticpages.updated_by %}
+    <br>
+    Updated by: {{staticpages.updated_by|title}} At: {{staticpages.updated_at}}
+  {% endif %}
+  <br>
+</center>
+
+{% endif %}
+{% endblock %}

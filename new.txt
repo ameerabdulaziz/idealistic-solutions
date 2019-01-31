@@ -1,0 +1,6 @@
+<div class="input-group">
+                           <label class="col-0 col-form-label">Date: </label>
+                           <input name="date"  type="date"  min={{mindate}} max={{maxdate}} id="Customer_Selected_Date" required>
+                           <div class="input-group-append">
+                               <span class="input-group-text"><i class="ti-calendar"></i></span>
+                           </div>

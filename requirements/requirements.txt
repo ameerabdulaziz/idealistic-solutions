@@ -1,0 +1,11 @@
+#sudo apt-get install erlang-nox
+#sudo apt-get install rabbitmq-server
+pip3 install celery
+pip3 install twilio
+pip3 install django-bootstrap4
+pip3 install django-ckeditor
+pip3 install django_celery_results
+pip3 install django-celery-beat
+pip3 install djangorestframework
+pip3 install djangorestframework_simplejwt
+pip3 install pillow

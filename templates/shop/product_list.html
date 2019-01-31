@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Shop | {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <!-- Page Section (Products) -->
+    <section class="page-section" id="section-products">
+        <div class="container">
+
+            <div class="section-title-wrapper section-title-wrapper__sm">
+                <div class="section-title-inner">
+                    <h1 class="section-title">Our best service for the world</h1>
+                    <!-- <span class="section-desc">Our best service for the world</span> -->
+                </div>
+            </div>
+
+            <!-- Products List -->
+            <div class="products-holder row">
+                {% for product in products %}
+                    <!-- Product -->
+                    <div class="product-item col-sm-6 col-md-6 col-lg-3 wow fadeIn" data-wow-duration="2s">
+                        <a href="{{ product.get_absolute_url }}">
+                            <figure class="product-thumbnail">
+                                {% if product.badge %}
+                                  <span class="onsale">{{product.badge}}</span>
+                                {% endif %}
+
+                                {% if product.discount %}
+                                  <span class="onsale"> {{ product.discount|floatformat:0 }}% </span>
+                                {% endif %}
+                                <!-- <span class="discount"> {{ product.discount }}% </span> -->
+
+
+                                <center>
+                                  <img src="{{ product.image.url }}" alt="{{ product.title }}" class="thumbnail img-responsive">
+                                </center>
+
+
+                                {#                            <span class="product-btn-group">#}
+                                {#									<a href="images/samples/gallery-l-img2.jpg" title="T-shirt with logo" class="btn btn-primary btn-single-icon product-popup magnific-popup-link"><i class="fa fa-plus"></i></a>#}
+                                {#									<a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-single-icon product-link"><i class="fa fa-link"></i></a>#}
+                                {#								</span>#}
+                            </figure>
+                        </a>
+                        <div class="product-info">
+                            <a href="{{ product.get_absolute_url }}"><h3 class="product-name">{{ product.name }}</h3></a>
+                            <a href="{{ product.category.get_absolute_url }}"><span class="product-brand">{{ product.category }}</span></a>
+                            {% include 'shop/_add_to_cart.html' %}
+                        </div>
+                        <footer class="product-footer">
+                            <div class="price">
+                                <ins><span class="amount">${{ product.price }}</span></ins>
+
+                                {% if product.price_before_discount and product.price_before_discount > product.price %}
+                                  <del><span class="amount">${{ product.price_before_discount }}   </span></del>
+
+
+                                {% endif %}
+
+                            </div>
+                            <!-- <div class="star-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div> -->
+                        </footer>
+                    </div>
+                    <!-- Product / End -->
+                {% endfor %}
+            </div>
+            <!-- Products List / End -->
+
+            <!-- <div class="hr-scroll border__dashed">
+						<span class="icon">
+							<img src="images/mouse.png" alt="" width="16" height="37">
+						</span>
+            </div> -->
+
+
+        </div>
+    </section>
+    <!-- Page Section (Products) / End -->
+
+    {#    <div class="row">#}
+    {#        {% for product in products %}#}
+    {#            <div class="col-12 col-md-6 col-lg-3">#}
+    {#                <div class="card">#}
+    {#                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.title }}" height="250px">#}
+    {#                    <div class="card-body">#}
+    {#                        <div class="row">#}
+    {#                            <div class="col">#}
+    {#                                <h4 class="card-title"><a href="#" title="View Product">{{ product.name }}</a></h4>#}
+    {#                            </div>#}
+    {#                            <div class="col">#}
+    {#                                <p class="btn btn-danger">{{ product.price }} $</p>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                        <p class="card-text">{{ product.description|truncatechars:75 }}</p>#}
+    {#                        {% include 'shop/_add_to_cart.html' with product=product %}#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        {% endfor %}#}
+    {#    </div>#}
+{% endblock %}
+
+{#{% block script %}#}
+{#    <script src="{% static 'js/main.js' %}"></script>#}
+{#{% endblock %}#}

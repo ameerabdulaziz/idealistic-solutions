@@ -1,0 +1,37 @@
+{% load staticfiles %}
+
+<header class="header header__fixed">
+    <!-- Top Bar -->
+    <div id="header-top-bar" class="h-top-bar h-top-bar__layout1 h-top-bar__color1 h-top-bar__border-between-items h-top-bar__border-between-items__dashed">
+        <div class="container">
+            <div class="h-top-bar_item h-top-bar_item__phone"> +1 (347) 441-0043</div>
+            <div class="h-top-bar_item h-top-bar_item__email">
+                <a href="mailto:sales@dan-fisher.com">Support@idealisticsolutions.com</a>
+            </div>
+            <div class="h-top-bar_item h-top-bar_item__login">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'accounts:detail' user.userprofile.slug %}" title="Login" class="h-top-bar_link h-top-bar_link__sign-in">{{ user.get_full_name }}</a>
+                    <span class="h-top-bar_item__login-txt">or</span>
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}?next={{ request.path }}" title="Login" class="h-top-bar_link h-top-bar_link__sign-in">Login</a>
+                    <span class="h-top-bar_item__login-txt">or</span>
+                    <a href="{% url 'accounts:register' %}" title="Register" class="h-top-bar_link h-top-bar_link__sign-up">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Top Bar / End -->
+    <div class="header-main">
+        <div class="container">
+
+            <!-- Navigation -->
+            {% block navbar %}
+                {% include '_navbar.html' %}
+            {% endblock %}
+            <!-- Navigation / End -->
+
+        </div>
+    </div>
+
+</header>

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% load bootstrap4 %}
+
+{% block title %}Payment | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <br>
+        <div class="row">
+            <section id="checkout-personal-information-step" class="checkout-step -reachable -complete">
+                <h1 class="step-title h3 not-allowed">
+                    Payments
+                </h1>
+            </section>
+
+            <form action="" method="POST">{% csrf_token %}
+                <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ data_key }}"
+                        data-amount="{{ stripe_total }}"
+                        data-name="Idealistic Solutions"
+                        data-description="{{ description }}"
+                        data-image="{% static 'img/logo.png' %}"
+                        data-locale="auto"
+                        data-currency="usd"
+                        data-shipping-address="true"
+                        data-billing-address="true"
+                        data-zip-code="true"
+                >
+                </script>
+            </form>
+            <br>
+            {{ paypal_form.render }}
+        </div>
+        <br>
+    </div>
+{% endblock %}

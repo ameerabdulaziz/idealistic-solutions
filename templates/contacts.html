@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}Contacts | {{ block.super }}{% endblock %}
+
+{% block content %}
+<!-- Page Section (Contacts) -->
+<section class="page-section page-section__no-bottom-padding" id="section-contacts">
+    <div class="container">
+
+        <div class="section-title-wrapper">
+            <div class="section-title-inner">
+                <h1 class="section-title">Contact Us</h1>
+                <span class="section-desc">Example of work process</span>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form action="php/contact-form.php" id="contact-form" class="contact-form">
+
+            <div class="alert alert-success hidden" id="contact-alert-success">
+                <strong>Success!</strong> Thank you for your message. Reply will be in a while!
+            </div>
+            <div class="alert alert-danger hidden" id="contact-alert-error">
+                <strong>Error!</strong> Something went wrong sending your message.
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Field: Name -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text"
+                                   value=""
+                                   data-msg-required="Please enter your name."
+                                   class="form-control"
+                                   name="name" id="name"
+                                   placeholder="Your Name">
+                        </div>
+                    </div>
+                    <!-- Field: Name / End -->
+                </div>
+                <div class="col-md-4">
+                    <!-- Field: Email -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                            <input type="email"
+                                   value=""
+                                   data-msg-required="Please enter your email address."
+                                   data-msg-email="Please enter a valid email address."
+                                   class="form-control"
+                                   name="email"
+                                   id="email"
+                                   placeholder="Email Address">
+                        </div>
+                    </div>
+                    <!-- Field: Email / End -->
+                </div>
+                <div class="col-md-4">
+                    <!-- Field: Site -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-desktop"></i></div>
+                            <input type="url"
+                                   class="form-control"
+                                   name="url"
+                                   id="url"
+                                   placeholder="Your Web Site">
+                        </div>
+                    </div>
+                    <!-- Field: Site / End -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <!-- Field: Textarea / End -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-pencil"></i></div>
+                            <textarea
+                                    data-msg-required="Please enter your message."
+                                    rows="8"
+                                    class="form-control"
+                                    name="message"
+                                    id="message"
+                                    placeholder="Your Message"></textarea>
+                        </div>
+                    </div>
+                    <!-- Field: Textarea / End -->
+                </div>
+                <div class="col-md-4">
+                    <p>Please enter your information in the right way, in the main text area specify as much as possible about your offer / issue.</p>
+
+                    <strong>We will reply as soon as possible. Thank you!</strong>
+
+                    <hr class="hr__dashed">
+
+                    <button class="btn btn-primary btn-has-icon btn-block" data-loading-text="Loading...">
+                        <i class="fa fa-envelope"></i>
+                        Send Message
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- Contact Form / End -->
+
+    </div>
+</section>
+<!-- Page Section (Contacts) / End -->
+
+
+<!-- Page Section (Location) -->
+<section class="page-section page-section__no-top-padding">
+
+    <div id="gmapHolder" class="gmap-holder">
+        <div class="hr-scroll-bottom">
+            <a data-toggle="collapse" data-parent="#gmapHolder" href="#gmapWrapper" aria-expanded="true" aria-controls="gmapWrapper" id="gmapTrigger">Close Google Map</a>
+        </div>
+
+        <!-- Google Map -->
+        <div class="googlemap-wrapper collapse in" id="gmapWrapper">
+            <div id="map_canvas" class="map-canvas"></div>
+        </div>
+        <!-- Google Map / End -->
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Address -->
+                <div class="feature-box feature-box__icon-left">
+                    <div class="feature-icon circled-icon icon-color4 wow bounceIn">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <h3 class="feature-title">Our Address</h3>
+                    <div class="feature-desc">
+                        <h5>New York (Main Office)</h5>
+                        <p>40.719939, -74.010579</p>
+                        <h5>Miami (Support &amp; Dev.)</h5>
+                        <p>
+                            50.069587, 14.431292<br>
+                            <strong>Work time - 24/7</strong>
+                        </p>
+                    </div>
+                </div>
+                <!-- Address / End -->
+            </div>
+            <div class="col-md-4">
+                <!-- Phones -->
+                <div class="feature-box feature-box__icon-left">
+                    <div class="feature-icon circled-icon icon-color1 wow bounceIn" data-wow-delay="0.2s">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <h3 class="feature-title">Our Phones</h3>
+                    <div class="feature-desc">
+                        <h5>Main Manager</h5>
+                        <p>8 800 380-123-45-67 (<a href="#"><strong>Ryan</strong></a>)</p>
+                        <h5>Company Numbers</h5>
+                        <p>
+                            +380-12-34-56<br>
+                            8 800 360-231-13-32
+                        </p>
+                    </div>
+                </div>
+                <!-- Phones / End -->
+            </div>
+            <div class="col-md-4">
+                <!-- Phones -->
+                <div class="feature-box feature-box__icon-left">
+                    <div class="feature-icon circled-icon icon-color2 wow bounceIn" data-wow-delay="0.4s">
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <h3 class="feature-title">About Us</h3>
+                    <div class="feature-desc">
+                        <p>In hac habitasse platea dictum. Curabitur a felis in nunc fringi tristique. Nullam sem. </p>
+
+                        Pellentesque libero tortor, tin- dunt et, tincidunt eget. Pellen- tesque egestas, neque.
+                    </div>
+                </div>
+                <!-- Phones / End -->
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- Page Section (Location) / End -->
+{% endblock %}

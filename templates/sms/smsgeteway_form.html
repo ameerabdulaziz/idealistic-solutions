@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %} Create or update smsgeteway {% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated  and user.is_superuser == 1 %}
+      <br>
+      {% if not smsgeteway.id %}
+        <h3>Create New smsgeteway</h3>
+      {% else %}
+        <h3>Update {{smsgeteway.title}} smsgeteway</h3>
+      {% endif %}
+      <form class="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        {% if not smsgeteway.id %}
+        <input class= "btn btn-lg btn-info btn-block" type="Submit" name="" value="Create">
+        <input type="hidden" name="created_by" value="{{user}}">
+        {% else %}
+        <input class= "btn btn-info" type="Submit" name="" value="Update">
+        <a class="btn btn-default" href="{% url 'sms:smsgeteway_detail' pk=smsgeteway.pk %}">Cancel</a>
+        <input type="hidden" name="created_by" value="{{smsgeteway.created_by}}">
+        <input type="hidden" name="updated_by" value="{{user}}">
+        <br>
+        Create by: {{smsgeteway.created_by}} At: {{smsgeteway.created_at}}
+        {% if smsgeteway.updated_by %}
+          <br>
+          Updated by: {{smsgeteway.updated_by}} At: {{smsgeteway.updated_at}}
+          <br>
+        {% endif %}
+        {% endif %}
+      </form>
+    {% else %}
+      <br>
+      <center><h1>Access Denied!</h1></center>
+      <br>
+    {% endif %}
+</div>
+<br>
+<br>
+<br>
+
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% load bootstrap4 %}
+
+{% block title %}Checkout | {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <br>
+        <div class="row">
+            {% if user.is_authenticated %}
+                <div class="col-md-8">
+                    <section id="checkout-personal-information-step" class="checkout-step -reachable -complete">
+                        <h1 class="step-title h3 not-allowed">
+                            Personal Information
+                        </h1>
+                    </section>
+                    <section id="checkout-addresses-step" class="checkout-step -current -reachable js-current-step">
+                        <div class="content">
+                            <p><b>Full name: </b>{{ user.get_full_name }}</p>
+                            <p><b>Email: </b>{{ user.email }}</p>
+                            {% if user.userprofile.gender %}<p><b>Gender: </b>{{ user.userprofile.get_gender_display }}{% endif %}
+                            {% if user.userprofile.birth_date %}<b>Birth Date: </b>{{ user.userprofile.birth_date }}</p>{% endif %}
+                            {% if user.userprofile.phone %}<p><b>Phone: </b>{{ user.userprofile.phone }}</p>{% endif %}
+                            {% if user.userprofile.address %}<p><b>Address: </b>{{ user.userprofile.address }}</p>{% endif %}
+                            {% if user.userprofile.city %}<p><b>City: </b>{{ user.userprofile.city }}{% endif %}
+                            {% if user.userprofile.state %}<b>State: </b>{{ user.userprofile.state }}{% endif %}
+                            {% if user.userprofile.zip %}<b>Zip: </b>{{ user.userprofile.zip }}</p>{% endif %}
+                            <br>
+                            {% if not user.userprofile.birth_date or not user.userprofile.phone or not user.userprofile.address or not user.userprofile.city or not user.userprofile.state or not user.userprofile.zip %}
+                                <meta http-equiv="Refresh" content="0; url={% url 'accounts:update' user.userprofile.slug %}" />
+                            {% endif %}
+                            <a href="{% url 'accounts:update' user.userprofile.slug %}" class="btn btn-primary">Edit</a>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-md-4">
+                    <section id="js-checkout-summary" class="card js-cart" data-refresh-url="http://fo.demo.prestashop.com/en/cart?ajax=1&amp;action=refresh">
+                        <div class="card-block">
+                            <div class="cart-summary-products">
+                                <p>{{ item_count }} items</p>
+                                <p>
+                                    <a href="#" data-toggle="collapse" data-target="#cart-summary-product-list">
+                                        show details
+                                    </a>
+                                </p>
+                                <div class="collapse" id="cart-summary-product-list">
+                                    <ul class="media-list">
+                                        {% for cart_item in cart_items %}
+                                            <li class="media">
+                                                <div class="media-left">
+                                                    <a href="http://fo.demo.prestashop.com/en/art/5-19-today-is-a-good-day-framed-poster.html#/19-dimension-40x60cm" title="Today is a good day Framed poster">
+                                                        <img class="media-object" src="{{ cart_item.product.image.url }}" alt="{{ cart_item.product }}" width="100">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <span class="product-name">{{ cart_item.product }}</span>
+                                                    <span class="product-quantity">x{{ cart_item.quantity }}</span>
+                                                    <span class="product-price float-xs-right">${{ cart_item.sub_total }}</span>
+                                                    <div class="product-line-info product-line-info-secondary text-muted">
+                                                        <span class="label">{{ cart_item.product.category }}</span>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="separator">
+                        <div class="card-block cart-summary-totals">
+                            <div class="cart-summary-line cart-total">
+                                {#                                <span class="label">Total</span>#}
+                                <span class="value"><strong>Total: </strong>${{ total }}</span>
+                            </div>
+                        </div><br>
+                        <a href="{% url 'cart:cart-payment' %}" class="btn btn-primary">Proceed to payment</a>
+                    </section>
+                </div>
+            {% else %}
+                <br>
+                <h1 class="text-center">You have to <a href="{% url 'accounts:login' %}">Login</a> before check out</h1>
+                <br>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+
+{% endblock %}

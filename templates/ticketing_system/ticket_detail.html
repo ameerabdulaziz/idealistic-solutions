@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}{{ ticket }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+
+  <!-- Reopen Ticket start here -->
+  {% if ticket.status == "C" and request.user.userprofile.type == "C" %}
+  <br>
+  <center>
+    <form action="{% url 'tickets:reopen' pk=ticket.pk %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="ticket_id" value="{{ticket.pk}}">
+      <button type="submit" class="btn btn-sm btn-success">Re-Open This Ticket?</button>
+    </form>
+  </center>
+  {% endif %}
+  <!-- Reopen Ticket end here -->
+
+  <!-- Close Ticket Start here -->
+  {% if ticket.status != "C" and request.user.userprofile.type == "C" %}
+  <br>
+  <center>
+    <form action="{% url 'tickets:close' ticket.pk %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="ticket_id" value="{{ticket.pk}}">
+      <button type="submit" class="btn btn-sm btn-danger">Close This Ticket?</button>
+    </form>
+  </center>
+  {% endif %}
+  <!-- Close Ticket End here -->
+
+    <div class="container"><br>
+    <!-- <table class="table table-bordered"> -->
+                <!-- <tr>
+                    <td class="text-left" colspan="2">
+                        <b>Order: </b>#{{ ticket.order.id }}<br>
+                        <b>Date: </b>{{ ticket.order.created_at|date:"d M Y" }}<br>
+                        <b>Order Total: </b>${{ ticket.order.total }}<br>
+                        <b>Order Status: </b><i class="fa fa-check"></i> Complete.
+                    </td>
+                    <td class="text-left" colspan="2">
+                        <b>Billing Address: </b><br>
+                        {{ ticket.order.billingName }}<br>
+                        {{ ticket.order.billingAddress1 }}<br>
+                        {{ ticket.order.billingCity }}<br>
+                        {{ ticket.order.billingPostcode }}<br>
+                        {{ ticket.order.billingCountry }}<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Product Description</b></td>
+                    <td><b>Qty</b></td>
+                    <td><b>Unit Price</b></td>
+                    <td><b>Sub-Total</b></td>
+                </tr>
+                {% for item in order_items %}
+                    <tr>
+                        <td>{{ item.product }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>${{ item.sub_total }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="text-right" colspan="3"><b>Total</b></td>
+                    <td>${{ ticket.order.total }}</td>
+                </tr>
+                <tr>
+                    <td class="text-right" colspan="3"><b>Total Paid</b></td>
+                    <td>${{ ticket.order.total }}</td>
+                </tr>
+                <tr>
+                    <td class="text-center" colspan="4">
+                        <b>Payment Details: </b>
+                        The order #{{ ticket.order.id }} has been paid successfully via Stripe.
+                    </td>
+                </tr>
+            </table> -->
+
+          <div class="panel-heading">#{{ ticket.id }} - {{ ticket }}
+            <div class="label mtop5 mbot15 mleft15 p8 pull-left single-ticket-status-label" style="background:#0000ff">{{ ticket.get_status_display }}</div>
+          </div>
+          <table class="table table-bordered">
+            <tr>
+                <td class="text-left" colspan="1">
+                    <b>{{ ticket.customer|title }}</b>
+                    {% if not self.request.user.is_staff %}
+                      Customer
+                    {% endif %}
+
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left" colspan="3">
+                    <b>{{ ticket.content|safe }}</b>
+                </td>
+            </tr>
+            <tr>
+              <td>{{ticket.created_at}}</td>
+            </tr>
+        </table>
+        {% if ticket.replies.all  %}
+          <h5 class="card-title">Reply</h5>
+        {% endif  %}
+
+        {% for reply in ticket.replies.all %}
+        <table class="table table-bordered">
+          <tr>
+              <td class="text-left" colspan="1">
+                  <b>{{ reply.user|title }}</b>
+                  {% if not self.request.user.is_staff %}
+                    Customer
+                  {% endif %} <br>
+
+              </td>
+          </tr>
+          <tr>
+
+              <td class="text-left" colspan="3">
+                  <b>{{ reply.content|safe }}</b>
+              </td>
+          </tr>
+          <tr>
+            <td>{{reply.created_at}}</td>
+          </tr>
+      </table>
+
+            <!-- <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Reply</h5>
+                    <p class="card-text">{{ reply.content|safe }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated  {{ reply.updated|timesince }} ago</small>
+                </div>
+            </div> -->
+        {% endfor %}
+    {% if ticket.status != "C" %}
+      <div class="col-md-10">
+          <div class="panel">
+              <div class="panel-body">
+                  {% include 'ticketing_system/reply_form.html' with ticket_slug=ticket.slug %}
+              </div>
+          </div>
+      </div>
+    {% endif %}
+    <br>
+
+
+    <br>
+
+    </div>
+
+    <!-- Reopen Ticket start here -->
+    {% if ticket.status == "C" and request.user.userprofile.type == "C" %}
+    <br>
+    <center>
+      <form action="{% url 'tickets:reopen' pk=ticket.pk %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="ticket_id" value="{{ticket.pk}}">
+        <button type="submit" class="btn btn-sm btn-success">Re-Open This Ticket?</button>
+      </form>
+    </center>
+    {% endif %}
+    <!-- Reopen Ticket end here -->
+
+    <!-- Close Ticket Start here -->
+    {% if ticket.status != "C" and request.user.userprofile.type == "C" %}
+    <br>
+    <center>
+      <form action="{% url 'tickets:close' ticket.pk %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="ticket_id" value="{{ticket.pk}}">
+        <button type="submit" class="btn btn-sm btn-danger">Close This Ticket?</button>
+      </form>
+    </center>
+    {% endif %}
+    <!-- Close Ticket End here -->
+
+
+{% endblock %}
