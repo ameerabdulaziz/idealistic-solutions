@@ -13,11 +13,10 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'vq)jkp7rkb+50%6ox1%)4$+qki3(o19%6=$+cws&9z_gd3+-lq'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = True
 
 ALLOWED_HOSTS = ['test.idealisticsolutions.com','127.0.0.1']
 # ALLOWED_HOSTS = ['127.0.0.1']
@@ -92,12 +91,12 @@ WSGI_APPLICATION = 'idealisticsolutions.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'is_main',
-        'USER': 'ameer@idealisticsolutions.com',
-        'PASSWORD': '@meer_@bdulaziz2018',
-        'HOST': 'idealisticsolutions.com',
-        'port': '3306',
+        'ENGINE': os.environ.get('ENGINE'),
+        'NAME': os.environ.get('NAME'),
+        'USER': os.environ.get('USER'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('HOST'),
+        'port': os.environ.get('port'),
     }
 }
 
@@ -226,20 +225,20 @@ SIMPLE_JWT = {
     >>>>> PAYMENT METHODS <<<<<
 """
 # Stripe
-STRIPE_PUBLISHABLE_KEY = 'pk_test_WnCRgmOxQMIlTYSHgXtYEVhg'
-STRIPE_SECRET_KEY = 'sk_test_a3XWqIQZqhnZ0GhugwIvdXWR'
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 # Paypal
-PAYPAL_RECEIVER_EMAIL = 'ameer.abdulaziz93@gmail.com'
+PAYPAL_RECEIVER_EMAIL = os.environ.get('PAYPAL_RECEIVER_EMAIL')
 PAYPAL_TEST = True
 
 """
     >>>>> MAILING CONFIGURATION <<<<<
 """
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.idealisticsolutions.com'
-EMAIL_HOST_USER = 'noreply@idealisticsolutions.com'
-EMAIL_HOST_PASSWORD = 'z)FHH3Gc0)dT<eewo(bCQhtRqNX4~!k0%~L@'
-EMAIL_PORT = 25
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT =  os.environ.get('EMAIL_PORT')
 
 # debug_toolbar
 INTERNAL_IPS = ['127.0.0.1', '108.30.141.250', '192.168.1.1', '192.168.1.101']
